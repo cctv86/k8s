@@ -27,6 +27,7 @@ func main() {
 		panic(err)
 	}
 	
+	//获取pod的日志
 	podsName := ""  //pod的名称
 	nsName := ""	// namespace
 	i, err := clientset.CoreV1().Pods(nsName).GetLogs(
@@ -43,7 +44,7 @@ func main() {
 	b ,err := ioutil.ReadAll(i)
 	fmt.Println(err)
 	fmt.Println(string(b))	
-	//获取pod的日志
+	
 
 	
 	deploymentclient := clientset.AppsV1beta1().Deployments(apiv1.NamespaceDefault)
