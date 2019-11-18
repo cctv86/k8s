@@ -26,7 +26,26 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	
+	podsName := ""  //pod的名称
+	nsName := ""	// namespace
+	i, err := clientset.CoreV1().Pods(nsName).GetLogs(
+		podsName, &corev1.PodLogOptions{
+			Follow:true,
+			Container: "",
+			//TailLines: &line,
+		}).Stream()
 
+	if err != nil {
+		panic(err)
+	}
+	
+	b ,err := ioutil.ReadAll(i)
+	fmt.Println(err)
+	fmt.Println(string(b))	
+	//获取pod的日志
+
+	
 	deploymentclient := clientset.AppsV1beta1().Deployments(apiv1.NamespaceDefault)
 
 	DeploymentListDemo(deploymentclient)
