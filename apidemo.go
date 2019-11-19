@@ -30,7 +30,7 @@ func main() {
 	//获取pod的日志
 	podsName := ""  //pod的名称
 	nsName := ""	// namespace
-	i, err := clientset.CoreV1().Pods(nsName).GetLogs(
+	response, err := clientset.CoreV1().Pods(nsName).GetLogs(
 		podsName, &corev1.PodLogOptions{
 			Follow:true,
 			Container: "",
@@ -40,8 +40,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	
-	b ,err := ioutil.ReadAll(i)
+	defer response.Close()
+	b ,err := ioutil.ReadAll(response)
 	fmt.Println(err)
 	fmt.Println(string(b))	
 	
